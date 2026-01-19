@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <!--el:meta-->
     <!--el:analytics-->
-
     <link rel="stylesheet" href="/assets/css/main.css">
-
     <title>Polaris</title>
 </head>
-
 <body>
+    <!-- Password Gate Overlay -->
+    <div id="password-gate" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:#000; color:#fff; display:flex; align-items:center; justify-content:center; flex-direction:column; z-index:9999; font-family:Arial, sans-serif; text-align:center;">
+      <h1 style="font-size:40px; margin-bottom:30px;">Enter Password</h1>
+      
+      <div style="display:flex; align-items:center; justify-content:center; gap:15px; flex-wrap:wrap;">
+        <input type="password" id="password-input" placeholder="Password here" style="padding:15px; font-size:20px; width:300px; max-width:90%; border-radius:8px; border:none;">
+        <button onclick="checkPassword()" style="padding:15px 30px; font-size:20px; background:#0f0; color:#000; border:none; border-radius:8px; cursor:pointer; white-space:nowrap;">Submit</button>
+      </div>
+      
+      <p id="error-msg" style="color:red; margin-top:30px; font-size:18px; display:none;">Wrong password—try again!</p>
+    </div>
+
+    <!-- Original Site Content (unchanged) -->
     <!--el:navbar-->
     <!--el:sidebar-->
-
     <div class="row mainpage">
         <div class="container">
             <h1 class="nomargin">Featured Game</h1>
-
             <img class="featured" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="/>
         </div>
-
         <div class="container right">
             <h1>Polaris</h1>
-
             <p>
                 <a href="https://discord.gg/skool-community-950407933408198717" target="_blank" class="blue">Discord</a>
                 -
@@ -37,23 +42,39 @@
                 -
                 <a href="/tos" class="blue">Terms of Service</a>
             </p>
-
             <hr>
-
             <h2 style="margin-bottom: 0px;">Changelog</h2>
             <small>
                 <a href="/changelog" class="blue">Full changelog</a>
             </small>
-
             <br>
-
             <div id="changelog"></div>
         </div>
     </div>
 
-    <script src="/assets/js/main.js" type="module"></script>
+    <!-- Password Script (runs before the site's main.js) -->
+    <script>
+      function checkPassword() {
+        const input = document.getElementById('password-input').value;
+        const correctPassword = 'lfnstedsi';  // Your chosen password
+        
+        if (input === correctPassword) {
+          document.getElementById('password-gate').style.display = 'none';
+        } else {
+          document.getElementById('error-msg').style.display = 'block';
+          document.getElementById('password-input').value = '';  // Clear input on wrong try
+        }
+      }
+      
+      // Allow pressing Enter to submit
+      document.getElementById('password-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          checkPassword();
+        }
+      });
+    </script>
 
+    <script src="/assets/js/main.js" type="module"></script>
     <!--el:{{mode === 'dev'}}:development-->
 </body>
-
 </html>
